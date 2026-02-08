@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentines para Susana 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 2em;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .gif-container {
+            margin: 30px 0;
+        }
+
+        .gif-container img {
+            max-width: 300px;
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #yesBtn {
+            background: #ff1493;
+            color: white;
+            transform: scale(1);
+        }
+
+        #yesBtn:hover {
+            background: #ff006e;
+            transform: scale(1.05);
+        }
+
+        #noBtn {
+            background: #ddd;
+            color: #666;
+        }
+
+        #noBtn:hover {
+            background: #ccc;
+        }
+
+        .success-message {
+            display: none;
+            animation: celebration 0.5s ease-in;
+        }
+
+        .success-message h2 {
+            color: #ff1493;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .firework {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x), var(--y)) scale(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes celebration {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="question-section">
+            <h1>Hola Susana &lt;3</h1>
+            <h2 style="color: #ff69b4; margin-bottom: 20px;">Would you be my valentines???</h2>
+            
+            <div class="gif-container">
+                <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDh4N2JuemRuMDJuN2c4Ymo3cTR1dXhtZm0xYjQzdWF5ajk2dWVwOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vfFKR4Q5UI5uE/giphy.gif" alt="Minion with heart">
+            </div>
+
+            <div class="buttons-container">
+                <button id="yesBtn" onclick="sayYes()">Yes</button>
+                <button id="noBtn" onclick="sayNo()">No</button>
+            </div>
+        </div>
+
+        <div id="success-section" class="success-message">
+            <h2>Yaaayyy! 🎉💝</h2>
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/11sBLVxNs7v6WA/giphy.gif" alt="Happy celebration">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        const maxNoClicks = 4;
+
+        function sayYes() {
+            document.getElementById('question-section').style.display = 'none';
+            document.getElementById('success-section').style.display = 'block';
+            createFireworks();
+        }
+
+        function sayNo() {
+            noClickCount++;
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+
+            if (noClickCount < maxNoClicks) {
+                // Cambiar texto del botón No
+                noBtn.textContent = 'Are you sure?';
+                
+                // Duplicar tamaño del botón Yes
+                const currentScale = Math.pow(2, noClickCount);
+                yesBtn.style.transform = `scale(${currentScale})`;
+                yesBtn.style.margin = '20px';
+            } else {
+                // En el 4to click, ambos botones dicen "Yes"
+                noBtn.textContent = 'Yes';
+                noBtn.style.background = '#ff1493';
+                noBtn.style.color = 'white';
+                noBtn.onclick = sayYes;
+                
+                // El botón Yes grande se mantiene
+                const currentScale = Math.pow(2, noClickCount);
+                yesBtn.style.transform = `scale(${currentScale})`;
+            }
+        }
+
+        function createFireworks() {
+            const colors = ['#ff1493', '#ff69b4', '#ff1493', '#ffc0cb', '#ff6b9d'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * window.innerWidth + 'px';
+                    firework.style.top = Math.random() * window.innerHeight + 'px';
+                    firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 100 + Math.random() * 100;
+                    firework.style.setProperty('--x', Math.cos(angle) * velocity + 'px');
+                    firework.style.setProperty('--y', Math.sin(angle) * velocity + 'px');
+                    
+                    document.body.appendChild(firework);
+                    
+                    setTimeout(() => firework.remove(), 1000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
